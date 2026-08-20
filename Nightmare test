@@ -1,0 +1,332 @@
+-- NIGHTMARES_SPAMMER Script for Brookhaven RP (100% Custom UI)
+-- Created by KING_KAISER | Username: SUPREME_AURA350
+
+local Players = game:GetService("Players")
+local TextChatService = game:GetService("TextChatService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Global Loop & Target Control
+_G.LoopMessages = false
+_G.TargetPlayer = ""
+
+-- Clean up existing instance to avoid duplicate UI
+if LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KaiserHubGui") then
+    LocalPlayer.PlayerGui.KaiserHubGui:Destroy()
+end
+
+-- 1. Auto-Execution Actions
+local function onExecution()
+    pcall(function()
+        if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+            local generalChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+            if generalChannel then
+                generalChannel:SendAsync("@@@@@@@@@@@@-_-_-_-_-_-_-_-_-_-_-_-_-//-_-/========[👑NIGHTMARES SPAMMER EXECUTED👑]FOR H8RS🌸🌸")
+            end
+        else
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("@@@@@@@@@@@@-_-_-_-_-_-_-_-_-_-_-_-_-//-_-/========[👑NIGHTMARES SPAMMER EXECUTED👑]FOR H8RS🌸🌸", "All")
+        end
+    end)
+
+    pcall(function()
+        local RPEvent = ReplicatedStorage:FindFirstChild("RE", true) or ReplicatedStorage:FindFirstChild("RPEvent", true)
+        if RPEvent then
+            RPEvent:FireServer("RPName", "KAISER_V2")
+            RPEvent:FireServer("RPBio", "welcome " .. LocalPlayer.Name .. " To Kaiser hub.")
+        end
+    end)
+end
+
+onExecution()
+
+-- 2. Custom ScreenGui & Main Panel
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "KaiserHubGui"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Main Frame Window
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 400, 0, 320)
+MainFrame.Position = UDim2.new(0.5, -200, 0.5, -160)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
+
+-- Animated RGB Border for Main Window
+local MainBorder = Instance.new("UIStroke")
+MainBorder.Name = "MainBorder"
+MainBorder.Color = Color3.fromRGB(255, 0, 0)
+MainBorder.Thickness = 3
+MainBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+MainBorder.Parent = MainFrame
+
+-- Header Bar
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0, 40)
+Header.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
+Header.BorderSizePixel = 0
+Header.Parent = MainFrame
+
+local HeaderCorner = Instance.new("UICorner")
+HeaderCorner.CornerRadius = UDim.new(0, 10)
+HeaderCorner.Parent = Header
+
+-- Title Label with RGB Color
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -40, 1, 0)
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "👑NIGHTMARES_SPAMMER👑"
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.TextSize = 18
+Title.Font = Enum.Font.SourceSansBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Header
+
+-- Window Minimize Button (-)
+local MinimizeBtn = Instance.new("TextButton")
+MinimizeBtn.Size = UDim2.new(0, 28, 0, 28)
+MinimizeBtn.Position = UDim2.new(1, -34, 0, 6)
+MinimizeBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
+MinimizeBtn.Text = "-"
+MinimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeBtn.TextSize = 18
+MinimizeBtn.Font = Enum.Font.SourceSansBold
+MinimizeBtn.Parent = Header
+
+local MinBtnCorner = Instance.new("UICorner")
+MinBtnCorner.CornerRadius = UDim.new(0, 6)
+MinBtnCorner.Parent = MinimizeBtn
+
+-- 3. Minimized Floating Icon (Changed Background Color to Black)
+local MinimizedIcon = Instance.new("TextButton")
+MinimizedIcon.Name = "MinimizedIcon"
+MinimizedIcon.Size = UDim2.new(0, 55, 0, 55)
+MinimizedIcon.Position = UDim2.new(0, 20, 0.4, 0)
+MinimizedIcon.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+MinimizedIcon.Text = "👑"
+MinimizedIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizedIcon.TextSize = 28
+MinimizedIcon.Font = Enum.Font.SourceSansBold
+MinimizedIcon.Visible = false
+MinimizedIcon.Active = true
+MinimizedIcon.Draggable = true
+MinimizedIcon.Parent = ScreenGui
+
+local IconCorner = Instance.new("UICorner")
+IconCorner.CornerRadius = UDim.new(0, 12)
+IconCorner.Parent = MinimizedIcon
+
+-- RGB Border Stroke for Minimized Icon
+local IconBorder = Instance.new("UIStroke")
+IconBorder.Name = "IconBorder"
+IconBorder.Color = Color3.fromRGB(255, 0, 0)
+IconBorder.Thickness = 3
+IconBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+IconBorder.Parent = MinimizedIcon
+
+-- Smooth RGB Rainbow Animation Loop (Main Window Border, Title Text & Minimized Icon Border)
+task.spawn(function()
+    local rainbowColors = {
+        Color3.fromRGB(255, 0, 0),    -- Red
+        Color3.fromRGB(255, 127, 0),  -- Orange
+        Color3.fromRGB(0, 0, 255),    -- Blue
+        Color3.fromRGB(0, 255, 0),    -- Green
+        Color3.fromRGB(255, 255, 0),  -- Yellow
+        Color3.fromRGB(139, 0, 255)   -- Purple
+    }
+    
+    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+    
+    while true do
+        for _, color in ipairs(rainbowColors) do
+            local strokeTween = TweenService:Create(MainBorder, tweenInfo, {Color = color})
+            local titleTween = TweenService:Create(Title, tweenInfo, {TextColor3 = color})
+            local iconBorderTween = TweenService:Create(IconBorder, tweenInfo, {Color = color})
+            
+            strokeTween:Play()
+            titleTween:Play()
+            iconBorderTween:Play()
+            task.wait(1)
+        end
+    end
+end)
+
+-- 4. Leadership Titles
+local LeftRoleLabel = Instance.new("TextLabel")
+LeftRoleLabel.Size = UDim2.new(0.5, -20, 0, 45)
+LeftRoleLabel.Position = UDim2.new(0, 15, 0, 48)
+LeftRoleLabel.BackgroundTransparency = 1
+LeftRoleLabel.Text = "👑NIGHTMARES OWNER👑\nALFA"
+LeftRoleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+LeftRoleLabel.TextSize = 15
+LeftRoleLabel.Font = Enum.Font.SourceSansBold
+LeftRoleLabel.TextXAlignment = Enum.TextXAlignment.Left
+LeftRoleLabel.Parent = MainFrame
+
+local RightRoleLabel = Instance.new("TextLabel")
+RightRoleLabel.Size = UDim2.new(0.5, -20, 0, 45)
+RightRoleLabel.Position = UDim2.new(0.5, 5, 0, 48)
+RightRoleLabel.BackgroundTransparency = 1
+RightRoleLabel.Text = "🔱NIGHTMARES CO-LEADER🔱\nKAISER"
+RightRoleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+RightRoleLabel.TextSize = 15
+RightRoleLabel.Font = Enum.Font.SourceSansBold
+RightRoleLabel.TextXAlignment = Enum.TextXAlignment.Right
+RightRoleLabel.Parent = MainFrame
+
+-- 5. Target Player Name Input Box
+local TargetBox = Instance.new("TextBox")
+TargetBox.Name = "TargetBox"
+TargetBox.Size = UDim2.new(1, -40, 0, 40)
+TargetBox.Position = UDim2.new(0, 20, 0, 102)
+TargetBox.BackgroundColor3 = Color3.fromRGB(32, 32, 45)
+TargetBox.PlaceholderText = "Target Clan Name..."
+TargetBox.PlaceholderColor3 = Color3.fromRGB(130, 130, 150)
+TargetBox.Text = ""
+TargetBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TargetBox.TextSize = 15
+TargetBox.Font = Enum.Font.SourceSans
+TargetBox.ClearTextOnFocus = false
+TargetBox.Parent = MainFrame
+
+local TargetCorner = Instance.new("UICorner")
+TargetCorner.CornerRadius = UDim.new(0, 8)
+TargetCorner.Parent = TargetBox
+
+TargetBox:GetPropertyChangedSignal("Text"):Connect(function()
+    _G.TargetPlayer = TargetBox.Text
+end)
+
+-- 6. Control Buttons (Start / Stop)
+local StartBtn = Instance.new("TextButton")
+StartBtn.Size = UDim2.new(0, 170, 0, 45)
+StartBtn.Position = UDim2.new(0, 20, 0, 155)
+StartBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 85)
+StartBtn.Text = "START"
+StartBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+StartBtn.TextSize = 18
+StartBtn.Font = Enum.Font.SourceSansBold
+StartBtn.Parent = MainFrame
+
+local StartCorner = Instance.new("UICorner")
+StartCorner.CornerRadius = UDim.new(0, 8)
+StartCorner.Parent = StartBtn
+
+local StopBtn = Instance.new("TextButton")
+StopBtn.Size = UDim2.new(0, 170, 0, 45)
+StopBtn.Position = UDim2.new(1, -190, 0, 155)
+StopBtn.BackgroundColor3 = Color3.fromRGB(215, 35, 35)
+StopBtn.Text = "STOP"
+StopBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+StopBtn.TextSize = 18
+StopBtn.Font = Enum.Font.SourceSansBold
+StopBtn.Parent = MainFrame
+
+local StopCorner = Instance.new("UICorner")
+StopCorner.CornerRadius = UDim.new(0, 8)
+StopCorner.Parent = StopBtn
+
+-- Bottom Footer Credits
+local CreditsLabel = Instance.new("TextLabel")
+CreditsLabel.Size = UDim2.new(1, 0, 0, 35)
+CreditsLabel.Position = UDim2.new(0, 0, 1, -45)
+CreditsLabel.BackgroundTransparency = 1
+CreditsLabel.Text = "NIGHTMARES_SPAMMER Created by KING_KAISER\nUsername: SUPREME_AURA350"
+CreditsLabel.TextColor3 = Color3.fromRGB(160, 160, 175)
+CreditsLabel.TextSize = 13
+CreditsLabel.Font = Enum.Font.SourceSans
+CreditsLabel.Parent = MainFrame
+
+-- 7. UI Minimize & Restore Logic
+MinimizeBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    MinimizedIcon.Visible = true
+end)
+
+MinimizedIcon.MouseButton1Click:Connect(function()
+    MainFrame.Visible = true
+    MinimizedIcon.Visible = false
+end)
+
+-- 8. Continuous Message Loop Logic
+local function startSpamLoop()
+    if _G.LoopMessages then return end
+    _G.LoopMessages = true
+
+    task.spawn(function()
+        while _G.LoopMessages do
+            local target = (_G.TargetPlayer and _G.TargetPlayer ~= "") and _G.TargetPlayer or "👑NIGHTMARES👑 H8RS(😝)"
+
+            local messages = {
+                target .. " TBKX MEH DARK POWER NIGHTMARES VOID WORM NIGHTMARES GOD ALFA WAVE NIGHTMARES PARALLEL PRIME(💎)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]",
+                target .. " TMKX МARE PARALLEL DARK NIGHTMARES HYPER ALFA WAVE PRIME NIGHTMARES FACT NIGHTMARES HYPER(😹)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]",
+                target .. " TMKX MEH NIGHTMARES WORM PARALLEL GOD ALFA HYPER VOID NIGHTMARES WAVE WAVE(🙈)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]",
+                target .. " TBKX MARE NIGHTMARES WORM PARALLEL LEGEND ALFA HYPER VOID NIGHTMARES WAVE POWER(💥)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]"
+            }
+
+            for _, msg in ipairs(messages) do
+                if not _G.LoopMessages then break end
+                
+                pcall(function()
+                    if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+                        local generalChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
+                        if generalChannel then
+                            generalChannel:SendAsync(msg)
+                        end
+                    else
+                        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, "All")
+                    end
+                end)
+
+                task.wait(2)
+            end
+
+            task.wait(3)
+        end
+    end)
+end
+
+StartBtn.MouseButton1Click:Connect(function()
+    startSpamLoop()
+end)
+
+StopBtn.MouseButton1Click:Connect(function()
+    _G.LoopMessages = false
+end)
+
+
+ local delayTime = 1.0 -- Default delay in seconds
+
+DelayBox:GetPropertyChangedSignal("Text"):Connect(function()
+    local numericValue = tonumber(DelayBox.Text)
+    if numericValue then
+        -- Restrict the delay value to a safe range
+        delayTime = math.clamp(numericValue, 0.7, 2.0)
+    end
+end)
+
+local isRunning = false
+
+local function startLoop()
+    if isRunning then return end
+    isRunning = true
+
+    task.spawn(function()
+        while isRunning do
+            -- Perform task here
+            
+            -- Yield using the dynamically set delay variable
+            task.wait(delayTime)
+        end
+    end)
+end
