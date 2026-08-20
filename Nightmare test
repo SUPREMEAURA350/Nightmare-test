@@ -288,10 +288,10 @@ local function startSpamLoop()
                     end
                 end)
 
-                task.wait(0.8)
+                task.wait(0.10)
             end
 
-            task.wait(0.8)
+            task.wait(0.10)
         end
     end)
 end
