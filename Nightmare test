@@ -305,28 +305,35 @@ StopBtn.MouseButton1Click:Connect(function()
 end)
 
 
- local delayTime = 1.0 -- Default delay in seconds
+ -- 1. Create the Delay Input Box
+local DelayBox = Instance.new("TextBox")
+DelayBox.Name = "DelayBox"
+DelayBox.Size = UDim2.new(1, -40, 0, 40)
+DelayBox.Position = UDim2.new(0, 20, 0, 150) -- Adjust Y offset to fit your UI arrangement
+DelayBox.BackgroundColor3 = Color3.fromRGB(32, 32, 45)
+DelayBox.PlaceholderText = "Set Delay Speed (0.7 - 2.0s)..."
+DelayBox.PlaceholderColor3 = Color3.fromRGB(130, 130, 150)
+DelayBox.Text = ""
+DelayBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+DelayBox.TextSize = 15
+DelayBox.Font = Enum.Font.SourceSans
+DelayBox.ClearTextOnFocus = false
+DelayBox.Parent = MainFrame -- Set to your UI frame container
 
+-- Corner Styling
+local DelayCorner = Instance.new("UICorner")
+DelayCorner.CornerRadius = UDim.new(0, 8)
+DelayCorner.Parent = DelayBox
+
+-- 2. Variable to hold the delay value (default set to 1.5 seconds)
+local currentDelay = 1.5
+
+-- 3. Update the variable safely whenever the text changes
 DelayBox:GetPropertyChangedSignal("Text"):Connect(function()
-    local numericValue = tonumber(DelayBox.Text)
-    if numericValue then
-        -- Restrict the delay value to a safe range
-        delayTime = math.clamp(numericValue, 0.7, 2.0)
+    local parsedNumber = tonumber(DelayBox.Text)
+    
+    if parsedNumber then
+        -- math.clamp ensures the value remains within safe processing limits (e.g., 0.7s to 2.0s)
+        currentDelay = math.clamp(parsedNumber, 0.7, 2.0)
     end
 end)
-
-local isRunning = false
-
-local function startLoop()
-    if isRunning then return end
-    isRunning = true
-
-    task.spawn(function()
-        while isRunning do
-            -- Perform task here
-            
-            -- Yield using the dynamically set delay variable
-            task.wait(delayTime)
-        end
-    end)
-end
