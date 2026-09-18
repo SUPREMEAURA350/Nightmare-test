@@ -22,10 +22,10 @@ local function onExecution()
         if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             local generalChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
             if generalChannel then
-                generalChannel:SendAsync("@@@@@@@@@@@@-_-_-_-_-_-_-_-_-_-_-_-_-//-_-/========[👑NIGHTMARES SPAMMER EXECUTED👑]FOR H8RS🌸🌸")
+                generalChannel:SendAsync("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ (SUPER🌪️SPEED)✨ ULTRASPAMMER✨ BY PiraTe H8RS KE देवता CREATED AND LOADED by [S1r_K3n]🔱.... ⚔️..Let The D3STRUCT10N Unleash..⚔️")
             end
         else
-            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("@@@@@@@@@@@@-_-_-_-_-_-_-_-_-_-_-_-_-//-_-/========[👑NIGHTMARES SPAMMER EXECUTED👑]FOR H8RS🌸🌸", "All")
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ (SUPER🌪️SPEED)✨ ULTRASPAMMER✨ BY PiraTe H8RS KE देवता CREATED AND LOADED by [S1r_K3n]🔱.... ⚔️..Let The D3STRUCT10N Unleash..⚔️", "All")
         end
     end)
 
@@ -177,7 +177,7 @@ local RightRoleLabel = Instance.new("TextLabel")
 RightRoleLabel.Size = UDim2.new(0.5, -20, 0, 45)
 RightRoleLabel.Position = UDim2.new(0.5, 5, 0, 48)
 RightRoleLabel.BackgroundTransparency = 1
-RightRoleLabel.Text = "🔱NIGHTMARES CO-LEADER🔱\nKAISER"
+RightRoleLabel.Text = "🔱NIGHTMARES CO-LEADER🔱\nKAISER
 RightRoleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 RightRoleLabel.TextSize = 15
 RightRoleLabel.Font = Enum.Font.SourceSansBold
@@ -268,10 +268,11 @@ local function startSpamLoop()
             local target = (_G.TargetPlayer and _G.TargetPlayer ~= "") and _G.TargetPlayer or "👑NIGHTMARES👑 H8RS(😝)"
 
             local messages = {
-                target .. " TBKX MEH DARK POWER NIGHTMARES VOID WORM NIGHTMARES GOD ALFA WAVE NIGHTMARES PARALLEL PRIME(💎)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]",
-                target .. " TMKX МARE PARALLEL DARK NIGHTMARES HYPER ALFA WAVE PRIME NIGHTMARES FACT NIGHTMARES HYPER(😹)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]",
-                target .. " TMKX MEH NIGHTMARES WORM PARALLEL GOD ALFA HYPER VOID NIGHTMARES WAVE WAVE(🙈)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]",
-                target .. " TBKX MARE NIGHTMARES WORM PARALLEL LEGEND ALFA HYPER VOID NIGHTMARES WAVE POWER(💥)[//===//////===//////===//////===//////===//////===//////===//////===//////===//]"
+               " [//===//////===//////===//////===//////===//////===//]" target .. " TMKX KI READYMADE LASSI BY [S1r_K3n] AFTER PELAI With HYPER PARALLEL VOID ARCHLORD UNIVERSE SYSTEM OMNIVERSE (💎)",
+               " [//===//////===//////===//////===//////===//////===//]" target .. " TMKX MEI DHARA DHAR PELAI HUI BY Only GODFATHER Of Old GenZ Clans [S1r_K3n] FROM PARALLEL GOD UNIVERSAL DARK REALM (💎)",
+               " [//===//////===//////===//////===//////===//////===//]" target .. " TBKX KA ORIGINAL OWNER [S1r_K3n] FROM ETERNAL GOD UNIVERSAL DARK PARALLEL DESTRUCTIVE VOID WAVE(💎)",
+               " [//===//////===//////===//////===//////===//////===//]" target .. " TMKX KI Non-Stop KUDAI BY [S1r_K3n] SUPREME ETERNAL OMNIVERSE GODFATHER OF ALL CLANS (💎)",
+               " [//===//////===//////===//////===//////===//////===//]" target .. " 🌪️HIGH-SPEED🌪️ ULTRA( SPAMLORD) v6⚡ CREATED BY [S1r_K3N] ✨Only for H8RS 🌸🌸"
             }
 
             for _, msg in ipairs(messages) do
@@ -288,10 +289,10 @@ local function startSpamLoop()
                     end
                 end)
 
-                task.wait(0.10)
+                task.wait(0.9)
             end
 
-            task.wait(0.10)
+            task.wait(0.9)
         end
     end)
 end
