@@ -5,36 +5,44 @@ local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
-local LocalPlayer = Players.LocalPlayer
+
+local LocalPlayer = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui", 10)
 
 -- Global Loop & Target Control
 _G.LoopMessages = false
 _G.TargetPlayer = ""
 
 -- Clean up existing instance to avoid duplicate UI
-if LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KaiserHubGui") then
-    LocalPlayer.PlayerGui.KaiserHubGui:Destroy()
+if PlayerGui:FindFirstChild("KaiserHubGui") then
+    PlayerGui.KaiserHubGui:Destroy()
 end
 
--- 1. Auto-Execution Actions
+-- 1. Auto-Execution Actions (Async so it does not block UI load)
 local function onExecution()
-    pcall(function()
-        if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-            local generalChannel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-            if generalChannel then
-                generalChannel:SendAsync("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ (SUPER🌪️SPEED)✨ ULTRASPAMMER✨ BY PiraTe H8RS KA देवता CREATED AND LOADED by [S1r_K3n]🔱.... ⚔️..Let The D3STRUCT10N Unleash..⚔️")
+    task.spawn(function()
+        pcall(function()
+            if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+                local channels = TextChatService:WaitForChild("TextChannels", 5)
+                local generalChannel = channels and channels:FindFirstChild("RBXGeneral")
+                if generalChannel then
+                    generalChannel:SendAsync("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ (SUPER🌪️SPEED)✨ ULTRASPAMMER✨ BY PiraTe H8RS KA देवता CREATED AND LOADED by [S1r_K3n]🔱.... ⚔️..Let The D3STRUCT10N Unleash..⚔️")
+                end
+            else
+                local defaultChat = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents", 5)
+                if defaultChat and defaultChat:FindFirstChild("SayMessageRequest") then
+                    defaultChat.SayMessageRequest:FireServer("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ (SUPER🌪️SPEED)✨ ULTRASPAMMER✨ BY PiraTe H8RS KA देवता CREATED AND LOADED by [S1r_K3n]🔱.... ⚔️..Let The D3STRUCT10N Unleash..⚔️", "All")
+                end
             end
-        else
-            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ (SUPER🌪️SPEED)✨ ULTRASPAMMER✨ BY PiraTe H8RS KA देवता CREATED AND LOADED by [S1r_K3n]🔱.... ⚔️..Let The D3STRUCT10N Unleash..⚔️", "All")
-        end
-    end)
+        end)
 
-    pcall(function()
-        local RPEvent = ReplicatedStorage:FindFirstChild("RE", true) or ReplicatedStorage:FindFirstChild("RPEvent", true)
-        if RPEvent then
-            RPEvent:FireServer("RPName", "KAISER_V2")
-            RPEvent:FireServer("RPBio", "welcome " .. LocalPlayer.Name .. " To Kaiser hub.")
-        end
+        pcall(function()
+            local RPEvent = ReplicatedStorage:FindFirstChild("RE", true) or ReplicatedStorage:FindFirstChild("RPEvent", true)
+            if RPEvent then
+                RPEvent:FireServer("RPName", "KAISER_V2")
+                RPEvent:FireServer("RPBio", "welcome " .. LocalPlayer.Name .. " To Kaiser hub.")
+            end
+        end)
     end)
 end
 
@@ -44,7 +52,7 @@ onExecution()
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "KaiserHubGui"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.Parent = PlayerGui
 
 -- Main Frame Window
 local MainFrame = Instance.new("Frame")
@@ -85,7 +93,7 @@ local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, -40, 1, 0)
 Title.Position = UDim2.new(0, 12, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "Ã°Å¸â€˜â€˜NIGHTMARES_SPAMMERÃ°Å¸â€˜â€˜"
+Title.Text = "👑NIGHTMARES_SPAMMER👑"
 Title.TextColor3 = Color3.fromRGB(255, 0, 0)
 Title.TextSize = 18
 Title.Font = Enum.Font.SourceSansBold
@@ -113,7 +121,7 @@ MinimizedIcon.Name = "MinimizedIcon"
 MinimizedIcon.Size = UDim2.new(0, 55, 0, 55)
 MinimizedIcon.Position = UDim2.new(0, 20, 0.4, 0)
 MinimizedIcon.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
-MinimizedIcon.Text = "Ã°Å¸â€˜â€˜"
+MinimizedIcon.Text = "👑"
 MinimizedIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 MinimizedIcon.TextSize = 28
 MinimizedIcon.Font = Enum.Font.SourceSansBold
@@ -147,8 +155,9 @@ task.spawn(function()
     
     local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
     
-    while true do
+    while ScreenGui and ScreenGui.Parent do
         for _, color in ipairs(rainbowColors) do
+            if not (ScreenGui and ScreenGui.Parent) then break end
             local strokeTween = TweenService:Create(MainBorder, tweenInfo, {Color = color})
             local titleTween = TweenService:Create(Title, tweenInfo, {TextColor3 = color})
             local iconBorderTween = TweenService:Create(IconBorder, tweenInfo, {Color = color})
@@ -166,7 +175,7 @@ local LeftRoleLabel = Instance.new("TextLabel")
 LeftRoleLabel.Size = UDim2.new(0.5, -20, 0, 45)
 LeftRoleLabel.Position = UDim2.new(0, 15, 0, 48)
 LeftRoleLabel.BackgroundTransparency = 1
-LeftRoleLabel.Text = "Ã°Å¸â€˜â€˜NIGHTMARES OWNERÃ°Å¸â€˜â€˜\nALFA"
+LeftRoleLabel.Text = "👑NIGHTMARES OWNER👑\nALFA"
 LeftRoleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 LeftRoleLabel.TextSize = 15
 LeftRoleLabel.Font = Enum.Font.SourceSansBold
@@ -177,7 +186,7 @@ local RightRoleLabel = Instance.new("TextLabel")
 RightRoleLabel.Size = UDim2.new(0.5, -20, 0, 45)
 RightRoleLabel.Position = UDim2.new(0.5, 5, 0, 48)
 RightRoleLabel.BackgroundTransparency = 1
-RightRoleLabel.Text = "Ã°Å¸â€Â±NIGHTMARES CO-LEADERÃ°Å¸â€Â±\nKAISER"
+RightRoleLabel.Text = "🔱NIGHTMARES CO-LEADER🔱\nKAISER"
 RightRoleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 RightRoleLabel.TextSize = 15
 RightRoleLabel.Font = Enum.Font.SourceSansBold
@@ -268,10 +277,10 @@ local function startSpamLoop()
             local target = (_G.TargetPlayer and _G.TargetPlayer ~= "") and _G.TargetPlayer or "[S1r_K3n H8RS(🔱)"
 
             local messages = {
-                [target] .. " TMKX KI Non-Stop KUDAI BY [S1r_K3n] SUPREME ETERNAL OMNIVERSE GODFATHER OF ALL CLANS (👑)[//===//////===//////===//////===//////===//////===//]",
-                [target] .. " TMKX KI READYMADE LASSI BY [S1r_K3n] AFTER PELAI With HYPER PARALLEL VOID ARCHLORD UNIVERSE SYSTEM OMNIVERSE (🔥)[//===//////===//////===//////===//////===//////===//]",
-                [target] .. " TBKX KA ORIGINAL OWNER [S1r_K3n] FROM ETERNAL GOD UNIVERSAL DARK PARALLEL DESTRUCTIVE VOID WAVE(💥)[//===//////===//////===//////===//////===//////===//]",
-                [target] .. " TMKX MEI DHARA DHAR PELAI HUI BY Only GODFATHER Of Old GenZ Clans [S1r_K3n] FROM PARALLEL GOD UNIVERSAL DARK REALM (⚡)[//===//////===//////===//////===//////===//////===//]"
+                target .. " TMKX KI Non-Stop KUDAI BY [S1r_K3n] SUPREME ETERNAL OMNIVERSE GODFATHER OF ALL CLANS (👑)[//===//////===//////===//////===//////===//////===//]",
+                target .. " TMKX KI READYMADE LASSI BY [S1r_K3n] AFTER PELAI With HYPER PARALLEL VOID ARCHLORD UNIVERSE SYSTEM OMNIVERSE (🔥)[//===//////===//////===//////===//////===//////===//]",
+                target .. " TBKX KA ORIGINAL OWNER [S1r_K3n] FROM ETERNAL GOD UNIVERSAL DARK PARALLEL DESTRUCTIVE VOID WAVE(💥)[//===//////===//////===//////===//////===//////===//]",
+                target .. " TMKX MEI DHARA DHAR PELAI HUI BY Only GODFATHER Of Old GenZ Clans [S1r_K3n] FROM PARALLEL GOD UNIVERSAL DARK REALM (⚡)[//===//////===//////===//////===//////===//////===//]"
             }
 
             for _, msg in ipairs(messages) do
@@ -288,10 +297,10 @@ local function startSpamLoop()
                     end
                 end)
 
-                task.wait(0.8)
+                task.wait(0.9)
             end
 
-            task.wait(0.8)
+            task.wait(0.9)
         end
     end)
 end
